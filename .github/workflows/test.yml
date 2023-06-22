@@ -1,0 +1,16 @@
+name: "test action send wechat"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: xiaoxuan6/github@main
+        with:
+          wechat_user: ${{ secrets.WECHAT_USER }}
+          wechat_appid: ${{ secrets.WECHAT_APPID }}
+          wechat_appsecret: ${{ secrets.WECHAT_APPSECRET }}
+          wechat_templateid: ${{ secrets.WECHAT_TEMPLATEID }}
+          message: "test"

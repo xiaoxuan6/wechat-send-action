@@ -1,0 +1,61 @@
+#  https://docs.github.com/en/actions/creating-actions/creating-a-composite-action
+name: 'wechat send message'
+description: 'Send a template message to the user through the WeChat test account.'
+author:
+  name: xiaoxuan6
+branding:
+  icon: 'copy'
+  color: 'orange'
+inputs:
+  wechat_user:
+    description: 'wechat user id.'
+    required: true
+  wechat_appid:
+    description: 'wechat appid'
+    required: true
+  wechat_appsecret:
+    description: 'wechat app_secret'
+    required: true
+  wechat_templateid:
+    description: 'wechat template_id'
+    required: true
+  message:
+    description: 'wechat message'
+    required: true
+    default: ''
+  url:
+    description: 'link url'
+    required: false
+    default: ''
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup PHP environment
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 7.4
+
+    - name: install global search
+      run: |
+        composer global require james.xue/search
+      shell: bash
+
+    - name: send message
+      env:
+        WECHAT_USER: ${{ inputs.wechat_user }}
+        WECHAT_APPID: ${{ inputs.wechat_appid }}
+        WECHAT_APPSECRET: ${{ inputs.wechat_appsecret }}
+        WECHAT_TEMPLATEID: ${{ inputs.wechat_templateid }}
+      run: |
+        search config set --key="wechat.user" --value="$WECHAT_USER"
+        search config set --key="wechat.appid" --value="$WECHAT_APPID"
+        search config set --key="wechat.appSecret" --value="$WECHAT_APPSECRET"
+        search config set --key="wechat.templateId" --value="$WECHAT_TEMPLATEID"
+        search wechat:send ${{ inputs.message }} ${{ inputs.url }}
+        search config unset --key="wechat.user"
+        search config unset --key="wechat.appid"
+        search config unset --key="wechat.appSecret"
+        search config unset --key="wechat.templateId"
+      shell: bash
