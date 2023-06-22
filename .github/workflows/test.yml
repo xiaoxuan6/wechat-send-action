@@ -7,7 +7,7 @@ jobs:
   send:
     runs-on: ubuntu-latest
     steps:
-      - uses: xiaoxuan6/github@main
+      - uses: xiaoxuan6/wechat-send-action@main
         with:
           wechat_user: ${{ secrets.WECHAT_USER }}
           wechat_appid: ${{ secrets.WECHAT_APPID }}
