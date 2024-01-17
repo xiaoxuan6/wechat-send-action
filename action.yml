@@ -53,7 +53,7 @@ runs:
         search config set --key="wechat.appid" --value="$WECHAT_APPID"
         search config set --key="wechat.appSecret" --value="$WECHAT_APPSECRET"
         search config set --key="wechat.templateId" --value="$WECHAT_TEMPLATEID"
-        search wechat:send ${{ inputs.message }} ${{ inputs.url }}
+        search wechat:send "${{ inputs.message }}" "${{ inputs.url }}"
         search config unset --key="wechat.user"
         search config unset --key="wechat.appid"
         search config unset --key="wechat.appSecret"
